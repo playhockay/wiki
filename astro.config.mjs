@@ -1,6 +1,6 @@
 // @ts-check
 
-import { rename } from "node:fs/promises";
+import { readFile, rename, writeFile } from "node:fs/promises";
 import cloudflare from "@astrojs/cloudflare";
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
@@ -25,6 +25,32 @@ const renameSitemapIndex = () => ({
 			} catch (err) {
 				if (/** @type {NodeJS.ErrnoException} */ (err).code !== "ENOENT") throw err;
 			}
+		},
+	},
+});
+
+// The Cloudflare adapter emits `/editor/*  /keystatic/*/index.html  301`, which
+// Cloudflare's `_redirects` validator rejects because `/index.html` is stripped
+// automatically and could theoretically loop. Rewrite the splat rule to use
+// `:splat` and drop the `/index.html` suffix.
+/** @returns {import('astro').AstroIntegration} */
+const fixCloudflareRedirects = () => ({
+	name: "fix-cloudflare-redirects",
+	hooks: {
+		"astro:build:done": async ({ dir }) => {
+			const path = new URL("_redirects", dir);
+			let contents;
+			try {
+				contents = await readFile(path, "utf8");
+			} catch (err) {
+				if (/** @type {NodeJS.ErrnoException} */ (err).code === "ENOENT") return;
+				throw err;
+			}
+			const patched = contents.replace(
+				/\/keystatic\/\*\/index\.html/g,
+				"/keystatic/:splat",
+			);
+			if (patched !== contents) await writeFile(path, patched);
 		},
 	},
 });
@@ -112,5 +138,6 @@ export default defineConfig({
 		sitemap(),
 		renameSitemapIndex(),
 		keystatic(),
+		fixCloudflareRedirects(),
 	],
 });
