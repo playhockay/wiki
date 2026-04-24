@@ -29,6 +29,40 @@ const renameSitemapIndex = () => ({
 	},
 });
 
+// The Cloudflare adapter auto-wires a `SESSION` KV binding for Astro's
+// built-in sessions API, but nothing in the wiki calls `Astro.session`. Without
+// a pre-existing namespace id wrangler tries to provision one on deploy and
+// collides with any prior namespace of the same name. Strip the binding.
+/** @returns {import('astro').AstroIntegration} */
+const stripSessionKvBinding = () => ({
+	name: "strip-session-kv-binding",
+	hooks: {
+		"astro:build:done": async () => {
+			const path = new URL("./dist/server/wrangler.json", import.meta.url);
+			let raw;
+			try {
+				raw = await readFile(path, "utf8");
+			} catch (err) {
+				if (/** @type {NodeJS.ErrnoException} */ (err).code === "ENOENT") return;
+				throw err;
+			}
+			const config = JSON.parse(raw);
+			if (!Array.isArray(config.kv_namespaces)) return;
+			const filtered = config.kv_namespaces.filter(
+				(/** @type {{ binding?: string }} */ ns) => ns.binding !== "SESSION",
+			);
+			if (filtered.length === config.kv_namespaces.length) return;
+			config.kv_namespaces = filtered;
+			if (config.previews?.kv_namespaces) {
+				config.previews.kv_namespaces = config.previews.kv_namespaces.filter(
+					(/** @type {{ binding?: string }} */ ns) => ns.binding !== "SESSION",
+				);
+			}
+			await writeFile(path, JSON.stringify(config));
+		},
+	},
+});
+
 // The Cloudflare adapter emits `/editor/*  /keystatic/*/index.html  301`, which
 // Cloudflare's `_redirects` validator rejects because `/index.html` is stripped
 // automatically and could theoretically loop. Rewrite the splat rule to use
@@ -139,5 +173,6 @@ export default defineConfig({
 		renameSitemapIndex(),
 		keystatic(),
 		fixCloudflareRedirects(),
+		stripSessionKvBinding(),
 	],
 });
