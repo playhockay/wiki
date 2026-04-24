@@ -36,6 +36,7 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.4.7",
+		"@cloudflare/workers-types": "4.20260424.1",
 		"@types/react": "19.2.14",
 		"@types/react-dom": "19.2.3",
 		"wrangler": "4.85.0"
