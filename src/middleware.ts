@@ -1,19 +1,23 @@
 import { defineMiddleware } from "astro:middleware";
 
 // @keystatic/astro 5.0.6 still reads `Astro.locals.runtime.env`, which Astro 6
-// removed. Until Keystatic ships an Astro-6-compatible release, repopulate
-// `locals.runtime.env` from the `cloudflare:workers` module so Keystatic's
-// built handler can pick up KEYSTATIC_GITHUB_CLIENT_ID / CLIENT_SECRET /
-// SECRET on each request. Dynamic import so Node-side prerendering (which
-// can't resolve `cloudflare:workers`) doesn't blow up.
+// removed in favor of `import { env } from "cloudflare:workers"`. The adapter
+// now defines `env` on `locals.runtime` as a getter that throws — so a simple
+// `"env" in runtime` check passes through and Keystatic hits the throwing
+// getter. Force-redefine it as a data property so Keystatic gets the real env.
+// Dynamic import keeps Node-side prerender happy (it can't resolve
+// `cloudflare:workers`).
 export const onRequest = defineMiddleware(async (context, next) => {
-	const locals = context.locals as unknown as {
-		runtime?: { env?: unknown };
-	};
-	if (locals.runtime && !("env" in locals.runtime)) {
+	const locals = context.locals as unknown as { runtime?: object };
+	if (locals.runtime) {
 		try {
 			const { env } = await import("cloudflare:workers");
-			locals.runtime.env = env;
+			Object.defineProperty(locals.runtime, "env", {
+				value: env,
+				writable: true,
+				configurable: true,
+				enumerable: true,
+			});
 		} catch {
 			// Not running on Workers (e.g. Node prerender) — nothing to shim.
 		}
