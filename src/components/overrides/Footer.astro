@@ -1,0 +1,53 @@
+---
+import Default from "@astrojs/starlight/components/Footer.astro";
+---
+
+<Default><slot /></Default>
+
+<div class="hockay-footer">
+	<div class="footer-inner">
+		<span>
+			Community-maintained wiki for <a href="https://hockay.com">Hockay</a>.
+		</span>
+		<span class="footer-links">
+			<a href="/editor">Edit in browser</a>
+			<span aria-hidden="true">·</span>
+			<a href="https://github.com/playhockay/wiki">GitHub</a>
+			<span aria-hidden="true">·</span>
+			<a href="/CONTRIBUTING">Contribute</a>
+		</span>
+	</div>
+</div>
+
+<style>
+	.hockay-footer {
+		margin-top: 3rem;
+		padding-top: 1.5rem;
+		border-top: 1px solid var(--sl-color-hairline);
+		font-size: 0.8125rem;
+		color: var(--sl-color-gray-3);
+	}
+
+	.footer-inner {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		gap: 0.75rem 1.5rem;
+	}
+
+	.footer-links {
+		display: inline-flex;
+		gap: 0.5rem;
+		align-items: center;
+	}
+
+	.hockay-footer a {
+		color: inherit;
+		text-decoration: underline;
+		text-underline-offset: 2px;
+	}
+
+	.hockay-footer a:hover {
+		color: var(--sl-color-text-accent);
+	}
+</style>

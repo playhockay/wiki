@@ -1,0 +1,4 @@
+# Every PR auto-requests review from the wiki-mods team.
+# Branch protection on `main` requires at least one approval from this team.
+
+*   @playhockay/wiki-mods

@@ -1,0 +1,41 @@
+{
+	"name": "hockay-wiki",
+	"type": "module",
+	"version": "1.0.0",
+	"private": true,
+	"scripts": {
+		"dev": "astro dev",
+		"start": "astro dev",
+		"build": "astro build",
+		"preview": "astro preview",
+		"astro": "astro",
+		"lint": "biome check",
+		"format": "biome format --write",
+		"lint:fix": "biome check --write ."
+	},
+	"dependencies": {
+		"@astrojs/check": "0.9.8",
+		"@astrojs/cloudflare": "13.2.1",
+		"@astrojs/mdx": "5.0.4",
+		"@astrojs/react": "5.0.4",
+		"@astrojs/sitemap": "3.7.2",
+		"@astrojs/starlight": "0.38.4",
+		"@astrojs/starlight-tailwind": "5.0.0",
+		"@keystatic/astro": "5.0.6",
+		"@keystatic/core": "0.5.50",
+		"@tailwindcss/vite": "4.2.4",
+		"acorn": "8.16.0",
+		"astro": "6.0.1",
+		"react": "19.2.5",
+		"react-dom": "19.2.5",
+		"sharp": "0.34.2",
+		"tailwindcss": "4.2.4",
+		"typescript": "6.0.3",
+		"unist-util-visit": "5.1.0"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.4.7",
+		"@types/react": "19.2.14",
+		"@types/react-dom": "19.2.3"
+	}
+}

@@ -1,0 +1,153 @@
+@import "tailwindcss";
+@import "@astrojs/starlight-tailwind";
+
+/* ------------------------------------------------------------ */
+/* Hockay design tokens (source of truth—match apps/web)       */
+/* ------------------------------------------------------------ */
+
+:root {
+	/* Palette */
+	--hockay-background: #faf8f5;
+	--hockay-foreground: #2c2c2c;
+	--hockay-muted: #6b6b6b;
+	--hockay-border: #e5e2de;
+	--hockay-surface: #ffffff;
+	--hockay-ice: #e8f0f8;
+	--hockay-accent: #3b82a0;
+
+	/* Lore accents (from apps/web globals.css) */
+	--hockay-accent-ice: #3b82a0;
+	--hockay-accent-jambono: #b8860b;
+	--hockay-accent-sixth: #6b3fa0;
+	--hockay-accent-positive: #2d6a4f;
+	--hockay-accent-negative: #9b2c2c;
+	--hockay-accent-ambiguous: #92640d;
+
+	/* Fonts—exposed as plain CSS vars so non-Tailwind contexts can read them */
+	--hockay-font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+	--hockay-font-mono: "Geist Mono", ui-monospace, monospace;
+	--hockay-font-serif: "Young Serif", ui-serif, Georgia, serif;
+}
+
+/* Tailwind v4—mirrors Hockay web app utilities */
+@theme inline {
+	--color-background: var(--hockay-background);
+	--color-foreground: var(--hockay-foreground);
+	--color-muted: var(--hockay-muted);
+	--color-border: var(--hockay-border);
+	--color-surface: var(--hockay-surface);
+	--color-ice: var(--hockay-ice);
+	--color-accent-ice: var(--hockay-accent-ice);
+	--color-accent-jambono: var(--hockay-accent-jambono);
+	--color-accent-sixth: var(--hockay-accent-sixth);
+	--color-accent-positive: var(--hockay-accent-positive);
+	--color-accent-negative: var(--hockay-accent-negative);
+
+	--font-sans: var(--hockay-font-sans);
+	--font-mono: var(--hockay-font-mono);
+	--font-serif: var(--hockay-font-serif);
+}
+
+/* ------------------------------------------------------------ */
+/* Light mode—exact Hockay palette (default)                   */
+/* ------------------------------------------------------------ */
+
+:root,
+:root[data-theme="light"] {
+	--sl-color-bg: var(--hockay-background);
+	--sl-color-bg-nav: var(--hockay-surface);
+	--sl-color-bg-sidebar: var(--hockay-background);
+	--sl-color-bg-inline-code: var(--hockay-ice);
+	--sl-color-bg-accent: var(--hockay-accent);
+
+	--sl-color-text: var(--hockay-foreground);
+	--sl-color-text-accent: var(--hockay-accent);
+	--sl-color-text-invert: var(--hockay-background);
+
+	--sl-color-hairline: var(--hockay-border);
+	--sl-color-hairline-light: var(--hockay-border);
+	--sl-color-hairline-shade: var(--hockay-border);
+
+	--sl-color-accent-low: var(--hockay-ice);
+	--sl-color-accent: var(--hockay-accent);
+	--sl-color-accent-high: #1f4a5f;
+
+	/* Starlight's gray scale—light mode ordering (dark → light) */
+	--sl-color-white: var(--hockay-foreground);
+	--sl-color-gray-1: var(--hockay-foreground);
+	--sl-color-gray-2: #404040;
+	--sl-color-gray-3: var(--hockay-muted);
+	--sl-color-gray-4: #8a8a8a;
+	--sl-color-gray-5: var(--hockay-border);
+	--sl-color-gray-6: #efece8;
+	--sl-color-gray-7: #f5f3f0;
+	--sl-color-black: var(--hockay-background);
+
+	--sl-font: var(--hockay-font-sans);
+	--sl-font-system: var(--hockay-font-sans);
+	--sl-font-mono: var(--hockay-font-mono);
+	--sl-font-system-mono: var(--hockay-font-mono);
+}
+
+/* ------------------------------------------------------------ */
+/* Dark mode—strict inversion of the Hockay palette            */
+/* (no hand-picked hexes—swap bg↔fg, accent stays Hockay ice)  */
+/* ------------------------------------------------------------ */
+
+:root[data-theme="dark"] {
+	--sl-color-bg: var(--hockay-foreground);
+	--sl-color-bg-nav: var(--hockay-foreground);
+	--sl-color-bg-sidebar: var(--hockay-foreground);
+	--sl-color-bg-inline-code: #404040;
+	--sl-color-bg-accent: var(--hockay-ice);
+
+	--sl-color-text: var(--hockay-background);
+	--sl-color-text-accent: var(--hockay-ice);
+	--sl-color-text-invert: var(--hockay-foreground);
+
+	--sl-color-hairline: #404040;
+	--sl-color-hairline-light: #404040;
+	--sl-color-hairline-shade: #404040;
+
+	--sl-color-accent-low: #1f4a5f;
+	--sl-color-accent: var(--hockay-ice);
+	--sl-color-accent-high: var(--hockay-background);
+
+	/* Gray scale—inverted (light → dark) */
+	--sl-color-white: var(--hockay-background);
+	--sl-color-gray-1: var(--hockay-background);
+	--sl-color-gray-2: #efece8;
+	--sl-color-gray-3: #a8a4a0;
+	--sl-color-gray-4: #8a8a8a;
+	--sl-color-gray-5: #4a4744;
+	--sl-color-gray-6: #3d3a36;
+	--sl-color-gray-7: #333330;
+	--sl-color-black: var(--hockay-foreground);
+}
+
+/* ------------------------------------------------------------ */
+/* Typography—Young Serif for every heading and title          */
+/* ------------------------------------------------------------ */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: var(--hockay-font-serif);
+	letter-spacing: -0.01em;
+	font-weight: 400;
+}
+
+/* Non-heading elements that read as titles—Starlight renders several of
+   these as <p class="title"> (Card, LinkCard) or plain divs. Serif them too. */
+.hero .tagline,
+.hero h1,
+.sl-hero-tagline,
+[data-page-title],
+.card > .title,
+.sl-link-card .title {
+	font-family: var(--hockay-font-serif);
+	letter-spacing: -0.01em;
+}
