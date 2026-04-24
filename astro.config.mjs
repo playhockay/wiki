@@ -6,7 +6,6 @@ import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import starlight from "@astrojs/starlight";
-import keystatic from "@keystatic/astro";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 import remarkInjectMdxComponents from "./src/lib/remark-inject-mdx-components.mjs";
@@ -63,32 +62,6 @@ const stripSessionKvBinding = () => ({
 	},
 });
 
-// The Cloudflare adapter emits `/editor/*  /keystatic/*/index.html  301`, which
-// Cloudflare's `_redirects` validator rejects because `/index.html` is stripped
-// automatically and could theoretically loop. Rewrite the splat rule to use
-// `:splat` and drop the `/index.html` suffix.
-/** @returns {import('astro').AstroIntegration} */
-const fixCloudflareRedirects = () => ({
-	name: "fix-cloudflare-redirects",
-	hooks: {
-		"astro:build:done": async ({ dir }) => {
-			const path = new URL("_redirects", dir);
-			let contents;
-			try {
-				contents = await readFile(path, "utf8");
-			} catch (err) {
-				if (/** @type {NodeJS.ErrnoException} */ (err).code === "ENOENT") return;
-				throw err;
-			}
-			const patched = contents.replace(
-				/\/keystatic\/\*\/index\.html/g,
-				"/keystatic/:splat",
-			);
-			if (patched !== contents) await writeFile(path, patched);
-		},
-	},
-});
-
 // Cloudflare adapter treats SSR deps as Workers-compatible, which breaks
 // Node-only deps (e.g. astro-expressive-code → postcss) during Vite's SSR
 // dep optimization in dev. Only apply the adapter for production builds.
@@ -98,22 +71,7 @@ export default defineConfig({
 	site: "https://hockay.wiki",
 	output: "server",
 	...(isBuild ? { adapter: cloudflare({ prerenderEnvironment: "node" }) } : {}),
-	// /editor is the public-facing URL; Keystatic's client-side router
-	// hardcodes /keystatic as its base path, so we redirect to the real mount.
-	redirects: {
-		"/editor": "/keystatic",
-		"/editor/[...params]": "/keystatic/[...params]",
-	},
 	vite: {
-		define: {
-			"process.env.KEYSTATIC_GITHUB_CLIENT_ID": JSON.stringify(
-				process.env.KEYSTATIC_GITHUB_CLIENT_ID,
-			),
-			"process.env.KEYSTATIC_GITHUB_CLIENT_SECRET": JSON.stringify(
-				process.env.KEYSTATIC_GITHUB_CLIENT_SECRET,
-			),
-			"process.env.KEYSTATIC_SECRET": JSON.stringify(process.env.KEYSTATIC_SECRET),
-		},
 		plugins: [tailwindcss()],
 	},
 	markdown: {
@@ -180,8 +138,6 @@ export default defineConfig({
 		mdx(),
 		sitemap(),
 		renameSitemapIndex(),
-		keystatic(),
-		fixCloudflareRedirects(),
 		stripSessionKvBinding(),
 	],
 });

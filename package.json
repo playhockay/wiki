@@ -22,8 +22,6 @@
 		"@astrojs/sitemap": "3.7.2",
 		"@astrojs/starlight": "0.38.4",
 		"@astrojs/starlight-tailwind": "5.0.0",
-		"@keystatic/astro": "5.0.6",
-		"@keystatic/core": "0.5.50",
 		"@tailwindcss/vite": "4.2.4",
 		"acorn": "8.16.0",
 		"astro": "6.0.1",

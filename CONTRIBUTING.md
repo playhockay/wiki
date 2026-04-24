@@ -1,26 +1,32 @@
 # Contributing to the Hockay Wiki
 
 Thank you for helping build the Hockay wiki. Everything here is community-written.
-There are two ways to contribute—pick whichever is easier for you. Both open
-pull requests against this repo, so the review flow is the same.
 
-## Lane 1—Browser editor (no git required)
+## Quick edits — via GitHub's web editor
 
-1. Go to [hockay.wiki/editor](https://hockay.wiki/editor).
-2. Sign in with your GitHub account. (The editor asks for permission to open
-   pull requests on your behalf—nothing else.)
-3. Pick a collection (Guides, Lore, or Glossary), create or edit a page, and
-   save. A pull request will be opened automatically.
-4. Wait for review—a wiki moderator will either merge it or leave comments.
+Every article has an **Edit this page** link at the bottom. Clicking it:
 
-You don't need to know Markdown, git, or anything else. The editor handles it.
+1. Opens the `.mdx` source in GitHub's web editor.
+2. Prompts you to sign in with GitHub and fork the repo (first time only).
+3. Lets you edit, then submit as a pull request against `main`.
 
-## Lane 2—Direct pull requests (for power users)
+A wiki moderator will review and either merge or leave comments. You don't need
+git installed for this flow — GitHub handles everything in the browser.
 
-1. On any wiki page, click **Edit this page** to open the `.mdx` source in
-   GitHub's web editor, or fork the repo locally.
-2. Edit the file and open a pull request against `main`.
-3. A wiki moderator will review and merge.
+## Bigger edits — clone and run locally
+
+If you're adding a new page, reorganizing several at once, or want to preview
+Starlight components as they render:
+
+```bash
+pnpm install
+pnpm dev
+```
+
+Open http://127.0.0.1:4321 (or the port Astro reports). Commit your changes to
+a branch and open a PR.
+
+## Content conventions
 
 All content lives under `src/content/docs/` as `.mdx` files. Frontmatter fields:
 
@@ -47,19 +53,6 @@ Use `<Infobox variant="ice" title="...">...</Infobox>` for callouts (variants:
 
 Members of the `wiki-mods` team. If you'd like to become a moderator after a
 few accepted contributions, open an issue and ask.
-
-## Running the site locally (optional)
-
-```bash
-pnpm install
-pnpm dev
-```
-
-Open http://127.0.0.1:4321 (or the port Astro reports).
-
-The `/editor` route uses **local** storage in dev—edits write straight to
-your filesystem, no GitHub round-trip. Set up a GitHub OAuth App and the env
-vars in `.env.example` only if you want to test the production flow locally.
 
 ## License
 
