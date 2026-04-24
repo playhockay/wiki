@@ -9,6 +9,7 @@
 		"build": "astro build",
 		"preview": "astro preview",
 		"astro": "astro",
+		"deploy": "wrangler deploy --config dist/server/wrangler.json",
 		"lint": "biome check",
 		"format": "biome format --write",
 		"lint:fix": "biome check --write ."
@@ -36,6 +37,7 @@
 	"devDependencies": {
 		"@biomejs/biome": "2.4.7",
 		"@types/react": "19.2.14",
-		"@types/react-dom": "19.2.3"
+		"@types/react-dom": "19.2.3",
+		"wrangler": "4.85.0"
 	}
 }
