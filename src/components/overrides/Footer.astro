@@ -1,5 +1,7 @@
 ---
 import Default from "@astrojs/starlight/components/Footer.astro";
+
+const { editUrl } = Astro.locals.starlightRoute;
 ---
 
 <Default><slot /></Default>
@@ -10,11 +12,17 @@ import Default from "@astrojs/starlight/components/Footer.astro";
 			Community-maintained wiki for <a href="https://hockay.com">Hockay</a>.
 		</span>
 		<span class="footer-links">
-			<a href="/editor">Edit in browser</a>
-			<span aria-hidden="true">·</span>
+			{
+				editUrl && (
+					<>
+						<a href={editUrl.href}>Edit on GitHub</a>
+						<span aria-hidden="true">·</span>
+					</>
+				)
+			}
 			<a href="https://github.com/playhockay/wiki">GitHub</a>
 			<span aria-hidden="true">·</span>
-			<a href="/CONTRIBUTING">Contribute</a>
+			<a href="https://github.com/playhockay/wiki/blob/main/CONTRIBUTING.md">Contribute</a>
 		</span>
 	</div>
 </div>
