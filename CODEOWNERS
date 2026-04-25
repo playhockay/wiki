@@ -1,0 +1,5 @@
+# Everything requires a playhockay org member by default
+* @playhockay
+
+# Wiki content can be approved by wiki-mods team
+/src/content/ @playhockay/wiki-mods
