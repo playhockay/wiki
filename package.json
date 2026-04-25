@@ -24,7 +24,7 @@
 		"@astrojs/starlight-tailwind": "5.0.0",
 		"@tailwindcss/vite": "4.2.4",
 		"acorn": "8.16.0",
-		"astro": "6.0.1",
+		"astro": "6.1.9",
 		"react": "19.2.5",
 		"react-dom": "19.2.5",
 		"sharp": "0.34.2",
