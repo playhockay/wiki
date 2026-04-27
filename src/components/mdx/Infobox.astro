@@ -1,0 +1,83 @@
+---
+type Variant =
+	| "ice"
+	| "jambono"
+	| "sixth"
+	| "positive"
+	| "negative"
+	| "neutral";
+
+interface Props {
+	variant?: Variant;
+	title?: string;
+}
+
+const { variant = "neutral", title } = Astro.props;
+---
+
+<aside class={`infobox infobox-${variant}`} role="note">
+	{title && <p class="infobox-title">{title}</p>}
+	<div class="infobox-body">
+		<slot />
+	</div>
+</aside>
+
+<style>
+	.infobox {
+		--infobox-accent: var(--sl-color-accent);
+		--infobox-bg: var(--sl-color-accent-low);
+
+		margin: 1.5rem 0;
+		padding: 1rem 1.25rem;
+		border-left: 3px solid var(--infobox-accent);
+		border-radius: 0 4px 4px 0;
+		background: var(--infobox-bg);
+		color: var(--sl-color-text);
+	}
+
+	.infobox-title {
+		margin: 0 0 0.5rem;
+		font-family: var(--font-serif);
+		font-weight: 500;
+		font-size: 1rem;
+		color: var(--infobox-accent);
+	}
+
+	.infobox-body :global(:first-child) {
+		margin-top: 0;
+	}
+
+	.infobox-body :global(:last-child) {
+		margin-bottom: 0;
+	}
+
+	.infobox-ice {
+		--infobox-accent: var(--hockay-accent-ice);
+		--infobox-bg: color-mix(in srgb, var(--hockay-accent-ice) 10%, transparent);
+	}
+
+	.infobox-jambono {
+		--infobox-accent: var(--hockay-accent-jambono);
+		--infobox-bg: color-mix(in srgb, var(--hockay-accent-jambono) 10%, transparent);
+	}
+
+	.infobox-sixth {
+		--infobox-accent: var(--hockay-accent-sixth);
+		--infobox-bg: color-mix(in srgb, var(--hockay-accent-sixth) 10%, transparent);
+	}
+
+	.infobox-positive {
+		--infobox-accent: var(--hockay-accent-positive);
+		--infobox-bg: color-mix(in srgb, var(--hockay-accent-positive) 10%, transparent);
+	}
+
+	.infobox-negative {
+		--infobox-accent: var(--hockay-accent-negative);
+		--infobox-bg: color-mix(in srgb, var(--hockay-accent-negative) 10%, transparent);
+	}
+
+	.infobox-neutral {
+		--infobox-accent: var(--sl-color-gray-3);
+		--infobox-bg: var(--sl-color-gray-7);
+	}
+</style>

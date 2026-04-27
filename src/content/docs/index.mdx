@@ -1,0 +1,104 @@
+---
+title: Hockay Wiki
+description: The community-maintained reference for everything Hockay—the sport, the mythology, the teams, the forces.
+template: splash
+hero:
+  tagline: The Almighty Ice appeared, and where The Almighty Ice appears, there is Hockay. Strap in.
+  actions:
+    - text: What is Hockay?
+      link: /guides/getting-started/
+      icon: right-arrow
+    - text: Read the FAQ
+      link: /guides/faq/
+      icon: open-book
+      variant: minimal
+    - text: Edit the wiki
+      link: https://github.com/playhockay/wiki/blob/main/CONTRIBUTING.md
+      icon: pencil
+      variant: minimal
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+import { TeamLogoGrid } from '../../components/TeamLogoGrid';
+
+## Start here
+
+<CardGrid>
+	<LinkCard
+		title="Just watching"
+		description="Pronunciation, 20 teams, how a match works, where to find scores."
+		href="/guides/getting-started/"
+	/>
+	<LinkCard
+		title="Picking a team"
+		description="Twenty franchises across six continents. You don't pick—you know."
+		href="/teams/"
+	/>
+	<LinkCard
+		title="Understanding the mythology"
+		description="The Almighty Ice. The Puck. The Jambono. The Sixth. Glacified."
+		href="/lore/"
+	/>
+	<LinkCard
+		title="Reading the advisories"
+		description="Every match gets a LPCHUIP advisory. The wording matters."
+		href="/modifiers/advisories/"
+	/>
+</CardGrid>
+
+## The entities
+
+<CardGrid stagger>
+	<Card title="The Almighty Ice" icon="star">
+		The god of Hockay. Appeared in twenty places simultaneously. Still spreading. [Read →](/lore/almighty-ice)
+	</Card>
+	<Card title="The Puck" icon="moon">
+		The referee. The object everyone fights over. Speaks once per season. [Read →](/lore/the-puck)
+	</Card>
+	<Card title="The Jambono" icon="approve-check">
+		Resurfaces reality. Caretaker or corruptor—nobody knows. [Read →](/lore/the-jambono)
+	</Card>
+	<Card title="The Sixth" icon="warning">
+		Where the penalty box leads. Where [player modifiers](/modifiers/player) come from. [Read →](/lore/the-sixth)
+	</Card>
+</CardGrid>
+
+## Twenty teams, one sport
+
+<TeamLogoGrid />
+
+
+## The modifier system
+
+Three layered systems of chaos sit on top of the simple hockey rulebook:
+
+<CardGrid>
+	<LinkCard
+		title="Player modifiers"
+		description="Luminous, Sharp, Foggy, Hollow, Tidal… gained in The Sixth."
+		href="/modifiers/player/"
+	/>
+	<LinkCard
+		title="Match modifiers"
+		description="Thin Ice, Mercury, Fog, Double or Nothing, Clean Ice—announced per game."
+		href="/modifiers/match/"
+	/>
+	<LinkCard
+		title="Arena modifiers"
+		description="One per team. Syrup, Steam, Overclock, Penguins. Always active at home."
+		href="/modifiers/arena/"
+	/>
+</CardGrid>
+
+## Contribute
+
+Anyone can edit. Click **Edit this page** at the bottom of any article to open
+the `.mdx` source in GitHub's web editor—sign in with GitHub, edit, and your
+change becomes a pull request. For bigger edits, [clone the repo](https://github.com/playhockay/wiki)
+and run it locally.
+
+See [CONTRIBUTING.md](https://github.com/playhockay/wiki/blob/main/CONTRIBUTING.md) for the house rules.
+
+---
+
+*Le Council reminds you that this wiki is maintained by the community. Accuracy is aspirational. The Almighty Ice is the authority.*
