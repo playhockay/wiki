@@ -19,19 +19,19 @@ hero:
 ---
 
 import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
-import { TeamLogoGrid } from '../../components/TeamLogoGrid';
+import TeamLogoGrid from '../../components/TeamLogoGrid.astro';
 
 ## Start here
 
 <CardGrid>
 	<LinkCard
 		title="Just watching"
-		description="Pronunciation, 20 teams, how a match works, where to find scores."
+		description="Pronunciation, 48 teams, how a match works, where to find scores."
 		href="/guides/getting-started/"
 	/>
 	<LinkCard
 		title="Picking a team"
-		description="Twenty franchises across six continents. You don't pick—you know."
+		description="Forty-eight teams, two conferences, six continents. You don't pick—you know."
 		href="/teams/"
 	/>
 	<LinkCard
@@ -50,7 +50,7 @@ import { TeamLogoGrid } from '../../components/TeamLogoGrid';
 
 <CardGrid stagger>
 	<Card title="The Almighty Ice" icon="star">
-		The god of Hockay. Appeared in twenty places simultaneously. Still spreading. [Read →](/lore/almighty-ice)
+		The god of Hockay. Appeared in twenty places simultaneously, then in twenty-eight more. Still spreading. [Read →](/lore/almighty-ice)
 	</Card>
 	<Card title="The Puck" icon="moon">
 		The referee. The object everyone fights over. Speaks once per season. [Read →](/lore/the-puck)
@@ -63,10 +63,39 @@ import { TeamLogoGrid } from '../../components/TeamLogoGrid';
 	</Card>
 </CardGrid>
 
-## Twenty teams, one sport
+## Forty-eight teams, one sport
+
+The Ice sorted them into two [conferences](/lore/conferences)—the clear ice and the pale ice.
+Le Council wrote it down.
 
 <TeamLogoGrid />
 
+[See all forty-eight →](/teams/)
+
+## What fans actually do
+
+<CardGrid>
+	<LinkCard
+		title="The Exchange"
+		description="Own shares in any of the forty-eight teams. Mind the curve."
+		href="/guides/exchange/"
+	/>
+	<LinkCard
+		title="The Church of the Ice"
+		description="Forty-eight parishes, one to each arena. Attendance is a Seal, presented once a day."
+		href="/guides/church/"
+	/>
+	<LinkCard
+		title="Petitions"
+		description="File with l'Agence. On reaching threshold, Le Council must act."
+		href="/guides/petitions/"
+	/>
+	<LinkCard
+		title="The S.H.I.F.T."
+		description="The transfer window. Your shares are your vote."
+		href="/guides/shift/"
+	/>
+</CardGrid>
 
 ## The modifier system
 
@@ -85,7 +114,7 @@ Three layered systems of chaos sit on top of the simple hockey rulebook:
 	/>
 	<LinkCard
 		title="Arena modifiers"
-		description="One per team. Syrup, Steam, Overclock, Penguins. Always active at home."
+		description="One per team, forty-eight in all. Syrup, Steam, Overclock, Penguins. Always active at home."
 		href="/modifiers/arena/"
 	/>
 </CardGrid>

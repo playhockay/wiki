@@ -1,0 +1,14 @@
+# Team crests are content-stable: a logo changes only when a team is renamed or
+# added, and a change ships under a new filename is not guaranteed—so this is a
+# long max-age rather than `immutable`, giving a stale copy a ceiling.
+#
+# Without this the whole 48-file set is re-validated on every homepage view.
+/team-logos/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+/favicon.svg
+  Cache-Control: public, max-age=604800
+
+# Astro fingerprints everything under /_astro/, so those really are immutable.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable

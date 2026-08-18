@@ -1,0 +1,176 @@
+---
+// The 48 team crests, linking to their pages. Kept in conference order so the
+// two halves of the league read as two halves.
+//
+// The logos are static files under `public/team-logos/` rather than inline SVG.
+// Inlined, this grid was 1.3 MB of markup on every homepage request; as assets
+// they are fetched once and then served from cache (see `public/_headers`).
+//
+// Only the colour logo is fetched. The resting state is `filter: grayscale(1)`,
+// which is what the separate monochrome files were for — they are the same
+// geometry with the fills swapped, so downloading them too would double the
+// payload for an effect CSS does for free.
+
+interface Team {
+	id: string;
+	slug: string;
+	name: string;
+}
+
+const VERGLAS: Team[] = [
+	{ id: "mtl", slug: "montreal-maples", name: "Montréal Maples" },
+	{ id: "wpg", slug: "winnipeg-wendigos", name: "Winnipeg Wendigos" },
+	{ id: "anc", slug: "anchorage-auroras", name: "Anchorage Auroras" },
+	{ id: "tok", slug: "tokyo-titans", name: "Tokyo Titans" },
+	{ id: "sao", slug: "sao-paulo-serpents", name: "São Paulo Serpents" },
+	{ id: "gdl", slug: "guadalajara-gatos", name: "Guadalajara Gatos" },
+	{ id: "bus", slug: "busan-blizzards", name: "Busan Blizzards" },
+	{ id: "ush", slug: "ushuaia-undertow", name: "Ushuaia Undertow" },
+	{ id: "per", slug: "perth-pyres", name: "Perth Pyres" },
+	{ id: "hav", slug: "havana-hammers", name: "Havana Hammers" },
+	{ id: "mcm", slug: "mcmurdo-monoliths", name: "McMurdo Monoliths" },
+	{ id: "wel", slug: "wellington-whales", name: "Wellington Whales" },
+	{ id: "mde", slug: "medellin-mapaches", name: "Medellín Mapaches" },
+	{ id: "gnd", slug: "gander-geese", name: "Gander Geese" },
+	{ id: "oah", slug: "oahu-otters", name: "Oahu Otters" },
+	{ id: "cuz", slug: "cuzco-crows", name: "Cuzco Crows" },
+	{ id: "sin", slug: "singapore-scorpions", name: "Singapore Scorpions" },
+	{ id: "rkv", slug: "reykjavik-ravens", name: "Reykjavik Ravens" },
+	{ id: "nuu", slug: "nuuk-nanuqs", name: "Nuuk Nanuqs" },
+	{ id: "brb", slug: "barbados-barracudas", name: "Barbados Barracudas" },
+	{ id: "tah", slug: "tahiti-tsunami", name: "Tahiti Tsunami" },
+	{ id: "pan", slug: "panama-pangolins", name: "Panama Pangolins" },
+	{ id: "phk", slug: "phuket-podcasters", name: "Phuket Podcasters" },
+	{ id: "ccs", slug: "caracas-chameleons", name: "Caracas Chameleons" },
+];
+
+const GIVRE: Team[] = [
+	{ id: "hel", slug: "helsinki-howlers", name: "Helsinki Howlers" },
+	{ id: "sto", slug: "stockholm-sirens", name: "Stockholm Sirens" },
+	{ id: "pra", slug: "prague-phantoms", name: "Prague Phantoms" },
+	{ id: "vla", slug: "vladivostok-vodkas", name: "Vladivostok Vodkas" },
+	{ id: "rim", slug: "rimini-rinklers", name: "Rimini Rinklers" },
+	{ id: "jbg", slug: "johannesburg-jaguars", name: "Johannesburg Jaguars" },
+	{ id: "mum", slug: "mumbai-monsoons", name: "Mumbai Monsoons" },
+	{ id: "dkr", slug: "dakar-djinns", name: "Dakar Djinns" },
+	{ id: "nrb", slug: "nairobi-narwhals", name: "Nairobi Narwhals" },
+	{ id: "cai", slug: "cairo-crocodiles", name: "Cairo Crocodiles" },
+	{ id: "mco", slug: "monaco-moose", name: "Monaco Moose" },
+	{ id: "teh", slug: "tehran-tigers", name: "Tehran Tigers" },
+	{ id: "osl", slug: "oslo-owls", name: "Oslo Owls" },
+	{ id: "kyv", slug: "kyiv-kestrels", name: "Kyiv Kestrels" },
+	{ id: "ams", slug: "amsterdam-aardvarks", name: "Amsterdam Aardvarks" },
+	{ id: "dub", slug: "dublin-dragons", name: "Dublin Dragons" },
+	{ id: "cyp", slug: "cyprus-chimeras", name: "Cyprus Chimeras" },
+	{ id: "mos", slug: "moscow-mules", name: "Moscow Mules" },
+	{ id: "smk", slug: "samarkand-seagulls", name: "Samarkand Seagulls" },
+	{ id: "oma", slug: "oman-orcas", name: "Oman Orcas" },
+	{ id: "chg", slug: "chengdu-cranes", name: "Chengdu Cranes" },
+	{ id: "los", slug: "lagos-lions", name: "Lagos Lions" },
+	{ id: "znz", slug: "zanzibar-zebras", name: "Zanzibar Zebras" },
+	{ id: "atl", slug: "atlantis-amonites", name: "Atlantis Amonites" },
+];
+
+const CONFERENCES = [
+	{ label: "La Conférence du Verglas", teams: VERGLAS },
+	{ label: "La Conférence du Givre", teams: GIVRE },
+];
+---
+
+<div class="not-content logo-grid">
+	{
+		CONFERENCES.map(({ label, teams }) => (
+			<section>
+				<h3 class="logo-grid-label">{label}</h3>
+				<ul class="logo-grid-row">
+					{teams.map((team) => (
+						<li>
+							<a href={`/teams/${team.slug}/`} title={team.name}>
+								<img
+									src={`/team-logos/${team.id}.svg`}
+									alt={team.name}
+									width="32"
+									height="32"
+									loading="lazy"
+									decoding="async"
+								/>
+							</a>
+						</li>
+					))}
+				</ul>
+			</section>
+		))
+	}
+</div>
+
+<style>
+	.logo-grid {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+		margin: 1.5rem 0;
+	}
+
+	.logo-grid-label {
+		margin: 0 0 0.625rem;
+		font-family: var(--font-mono, monospace);
+		font-size: 0.6875rem;
+		font-weight: 500;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--sl-color-gray-3);
+	}
+
+	.logo-grid-row {
+		display: grid;
+		grid-template-columns: repeat(8, 2rem);
+		gap: 0.75rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		justify-content: start;
+	}
+
+	@media (min-width: 50rem) {
+		.logo-grid-row {
+			grid-template-columns: repeat(12, 2rem);
+		}
+	}
+
+	@media (min-width: 72rem) {
+		.logo-grid-row {
+			grid-template-columns: repeat(24, 2rem);
+		}
+	}
+
+	.logo-grid-row a {
+		display: block;
+		width: 2rem;
+		height: 2rem;
+	}
+
+	.logo-grid-row img {
+		width: 2rem;
+		height: 2rem;
+		/* Crests are not all square—several viewBoxes are close to 2:1. */
+		object-fit: contain;
+		/* The resting state the separate monochrome files used to provide. */
+		filter: grayscale(1);
+		opacity: 0.4;
+		transition:
+			filter 150ms ease,
+			opacity 150ms ease;
+	}
+
+	.logo-grid-row a:hover img,
+	.logo-grid-row a:focus-visible img {
+		filter: grayscale(0);
+		opacity: 1;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.logo-grid-row img {
+			transition: none;
+		}
+	}
+</style>
