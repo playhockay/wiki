@@ -617,19 +617,34 @@ def main(argv: list[str] | None = None) -> int:
 
     data = HockayData(HockayAPI(args.api_url, api_key))
     team_a, team_b = (t.lower() for t in args.start_teams)
-    block, reigns, last_game = build_block(data, team_a, team_b)
+    print(f"Tracing the belt from the {team_a.upper()} vs {team_b.upper()} opener via {args.api_url} ...")
+    try:
+        block, reigns, last_game = build_block(data, team_a, team_b)
+    except APIError as e:
+        print(f"error: Hockay API problem: {e}", file=sys.stderr)
+        return 1
+    print(f"Traced {len(reigns)} reigns through {game_label(last_game)} of "
+          f"S{season_number(last_game['seasonId']):02d}; current holder: {reigns[-1].team.upper()}.")
 
     gh = GitHub(args.repo, gh_token, args.branch)
     path, ext = gh.resolve(args.dir, args.slug)
     if path is None:
-        if not args.init:
-            print(f"Page {args.dir}/{args.slug}(.md|.mdx) not found. Use --init to create it.", file=sys.stderr)
+        if not (args.init or args.dry_run):
+            print(f"error: page {args.dir}/{args.slug}(.md|.mdx) not found in {args.repo}@{args.branch}. "
+                  "Use --init to create it.", file=sys.stderr)
             return 1
         path, existing, sha = f"{args.dir}/{args.slug}.md", None, None
+        print(f"Page not found; it would be created at {path}.")
     else:
         existing, sha = gh.read(path)
+        print(f"Found page: {path}")
 
-    new_text = splice(existing, block, ext, args.init)
+    init = args.init
+    if args.dry_run and not init and not (existing and MARKER_RE.search(existing)):
+        init = True  # preview what --init would write instead of failing
+        print("note: the page has no BELT markers yet, so this preview shows what --init would write.")
+
+    new_text = splice(existing, block, ext, init)
 
     if existing is not None and new_text == existing:
         print("Page is already up to date; nothing to commit.")
