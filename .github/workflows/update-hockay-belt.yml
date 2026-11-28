@@ -1,0 +1,62 @@
+name: Update Hockay belt
+
+on:
+  schedule:
+    # Daily at 01:30 UTC. Hockay games start hourly from 00:00 UTC, so this runs
+    # shortly after the previous matchday's last game. Adjust to taste.
+    - cron: "30 1 * * *"
+  workflow_dispatch:
+    inputs:
+      init:
+        description: "First run only: add the belt markers and intro to the page"
+        type: boolean
+        default: false
+      dry_run:
+        description: "Preview only: print the generated page, do not commit"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: hockay-belt
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Update the belt page
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Required: add your Hockay API key as a repository secret named HOCKAY_API_KEY
+          # (Settings > Secrets and variables > Actions). Get a key at
+          # https://hockay.com/account/developers
+          HOCKAY_API_KEY: ${{ secrets.HOCKAY_API_KEY }}
+          # Optional: override the API base URL with a repository variable.
+          HOCKAY_API_URL: ${{ vars.HOCKAY_API_URL || 'https://hockay.com/api/v1' }}
+          INIT: ${{ inputs.init }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          args=(--repo "$GITHUB_REPOSITORY" --branch "$GITHUB_REF_NAME")
+          if [ "$INIT" = "true" ]; then
+            args+=(--init)
+          fi
+          if [ "$DRY_RUN" = "true" ]; then
+            args+=(--dry-run --out belt-preview.md)
+          fi
+          python scripts/update_hockay_belt.py "${args[@]}"
+
+      - name: Show the preview
+        if: ${{ inputs.dry_run }}
+        run: cat belt-preview.md
